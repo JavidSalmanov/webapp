@@ -1,17 +1,10 @@
-
-pool:
-  vmImage: 'ubuntu-latest'
+parameters:
+- name: listOfStrings
+  type: object
+  default:
+  - one
+  - two
 
 steps:
-- task: UniversalPackages@0
-  displayName: 'Universal publish'
-  inputs:
-    command: publish
-    vstsFeed: '25771794-d6a3-4f9c-98ff-f2bc23a254c2/cec319ea-9b38-4cd0-a37e-872b9a6e61f6'
-    vstsFeedPackage: javidpack
-    vstsPackageVersion: 1.1.2
-    vstsFeedPublish: '25771794-d6a3-4f9c-98ff-f2bc23a254c2/cec319ea-9b38-4cd0-a37e-872b9a6e61f6'
-    vstsFeedPackagePublish: japack
-    publishedPackageVar: "LATESTAPK"
-
-- script: echo "Publishing $(LATESTAPK) to HCS artifactory"
+- ${{ each value in parameters.listOfStrings }}:
+  - script: echo ${{ value }}
